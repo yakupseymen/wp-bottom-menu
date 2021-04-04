@@ -1,11 +1,16 @@
 # WP Bottom Menu #
-**Contributors:** j4cob
 **Tags:** bottom menu, mobile menu
+
 **Requires at least:** 5.0
+
 **Tested up to:** 5.7
+
 **Stable tag:** 1.1.1
+
 **Requires PHP:** 5.6
+
 **License:** GPLv2 or later
+
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
 WP Bottom Menu allows you to add a woocommerce supported bottom menu to your site.
@@ -25,6 +30,8 @@ WP Bottom Menu allows you to add a woocommerce supported bottom menu to your sit
 
 
 ### Installation ###
+
+[WP Bottom Menu - Wordpress.org Page](https://wordpress.org/plugins/wp-bottom-menu/)
 
 1. Upload the plugin files to the `/wp-content/plugins/wp-bottom-menu` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
