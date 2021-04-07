@@ -51,6 +51,9 @@ Use the Appearance->Customize->WP Bottom Menu->Menu Items screen to configure th
 
 ## Changelog ##
 
+### 1.1.2 ###
+* Fix - Issue: https://wordpress.org/support/topic/js-error-123/
+
 ### 1.1.1 ###
 * New - Added setting for search form placeholder text. Check it 'WP Bottom Menu > Customize'.
 

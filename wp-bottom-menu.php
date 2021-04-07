@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Bottom Menu
  * Description: WP Bottom Menu allows you to add a woocommerce supported bottom menu to your site.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: J4
  * Author URI: https://j4cob.net
  * License: GPL v2 or later
@@ -23,7 +23,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'WP_BOTTOM_MENU_VERSION', '1.1.1' );
+define( 'WP_BOTTOM_MENU_VERSION', '1.1.2' );
 define( 'WP_BOTTOM_MENU_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'WP_BOTTOM_MENU_DIR_PATH', plugin_dir_path( __FILE__ ) );
 

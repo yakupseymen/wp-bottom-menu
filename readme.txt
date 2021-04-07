@@ -4,7 +4,7 @@ Donate link:
 Tags: bottom menu, mobile menu
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -49,6 +49,9 @@ Use the Appearance->Customize->WP Bottom Menu->Menu Items screen to configure th
 3. Custom Menu
 
 == Changelog ==
+
+= 1.1.2 =
+* Fix - Issue: https://wordpress.org/support/topic/js-error-123/
 
 = 1.1.1 =
 * New - Added setting for search form placeholder text. Check it 'WP Bottom Menu > Customize'.
