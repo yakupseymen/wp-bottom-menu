@@ -1,10 +1,10 @@
 === WP Bottom Menu ===
 Contributors: j4cob
 Donate link: 
-Tags: bottom menu, mobile menu
+Tags: bottom menu,mobile menu
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.1.2
+Stable tag: 1.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,7 +19,7 @@ WP Bottom Menu allows you to add a woocommerce supported bottom menu to your sit
 * Custom Link
 * FontAwesome Icon Support
 * Custom SVG Icon Support
-* Woocommerce Cart Support
+* Woocommerce Cart Support (Cart Count & Cart Total supported)
 * Woocommerce Account Support
 * Search (Woocommerce Product or Post)
 * Customizable Style
@@ -41,6 +41,10 @@ Use the Appearance->Customize->WP Bottom Menu->Customize screen to configure the
 
 Use the Appearance->Customize->WP Bottom Menu->Menu Items screen to configure the plugin.
 
+= How can I show cart count or cart total? =
+
+Use the Appearance->Customize->WP Bottom Menu->Customize screen and find 'Customize Cart Item', configure the plugin.
+
 
 == Screenshots ==
 
@@ -49,6 +53,9 @@ Use the Appearance->Customize->WP Bottom Menu->Menu Items screen to configure th
 3. Custom Menu
 
 == Changelog ==
+
+= 1.2 =
+* New - Cart Count and Cart Total option. Check it 'WP Bottom Menu > Customize' and find 'Customize Cart Item'.
 
 = 1.1.2 =
 * Fix - Issue: https://wordpress.org/support/topic/js-error-123/
@@ -75,7 +82,4 @@ Use the Appearance->Customize->WP Bottom Menu->Menu Items screen to configure th
 * Fix woocommerce bugs.
 
 = 1.0 =
-* Inital Release.
-
-= 1.0 =
-Inital Release.
+Initial Release.

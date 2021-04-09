@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Bottom Menu
  * Description: WP Bottom Menu allows you to add a woocommerce supported bottom menu to your site.
- * Version: 1.1.2
+ * Version: 1.2
  * Author: J4
  * Author URI: https://j4cob.net
  * License: GPL v2 or later
@@ -23,7 +23,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'WP_BOTTOM_MENU_VERSION', '1.1.2' );
+define( 'WP_BOTTOM_MENU_VERSION', '1.2' );
 define( 'WP_BOTTOM_MENU_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'WP_BOTTOM_MENU_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -45,6 +45,9 @@ class WPBottomMenu{
         add_action( 'customize_register', array($this, 'wp_bottom_menu_customize_register' ) );
         add_action( 'wp_footer', array($this, 'wpbottommenu_customize_css') );
         add_filter( 'plugin_action_links', array($this, 'wp_bottom_menu_action_links'), 10, 2 );
+        if (class_exists( 'WooCommerce' )){
+            add_filter( 'woocommerce_add_to_cart_fragments', array($this, 'wp_bottom_menu_add_to_cart_fragment'), 10, 1 );
+        }
     } 
     
     function includes(){
@@ -106,14 +109,28 @@ class WPBottomMenu{
                     }
                 ?>" class="wp-bottom-menu-item">
             <?php endif; ?>
-                    <?php if(get_option( 'wpbottommenu_iconset', 'fontawesome' ) == 'fontawesome'): ?>
-                        <i class="wp-bottom-menu-item-icons fa <?php echo $repeater_item->subtitle; ?>"></i>
-                    <?php else: ?>
-                    <?php echo html_entity_decode($repeater_item->subtitle); ?>
-                    <?php endif; ?>
+                    
+                    <div class="wp-bottom-menu-icon-wrapper">
+                        <?php if(get_option( 'wpbottommenu_show_cart_count', false )): ?>
+                            <?php if ( class_exists( 'WooCommerce' ) and $repeater_item->choice == "wpbm-woo-cart") : ?>
+                                <div class="wp-bottom-menu-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
+                        <?php if(get_option( 'wpbottommenu_iconset', 'fontawesome' ) == 'fontawesome'): ?>
+                            <i class="wp-bottom-menu-item-icons fa <?php echo $repeater_item->subtitle; ?>"></i>
+                        <?php else: ?>
+                        <?php echo html_entity_decode($repeater_item->subtitle); ?>
+                        <?php endif; ?>
+                    </div>
                     <?php if(!get_option( 'wpbottommenu_disable_title', false )): ?>
-                    <span><?php echo $repeater_item->title; ?></span>
+                        <?php if(get_option( 'wpbottommenu_show_cart_total', false ) and $repeater_item->choice == "wpbm-woo-cart" and class_exists( 'WooCommerce' )): ?>
+                                <span class="wp-bottom-menu-cart-total"><?php WC()->cart->get_cart_total(); ?></span>
+                            <?php else: ?>
+                                <span><?php echo $repeater_item->title; ?></span>
+                        <?php endif; ?>
                     <?php endif; ?>
+                    
                 </a>
             <?php
             $wpbmsf = $repeater_item->choice;           
@@ -299,6 +316,54 @@ class WPBottomMenu{
                     'type' => 'checkbox',
                 ));
 
+                $wp_customize->add_setting( 'wpbottommenu_cart_separator' , array(
+                    'type'        => 'option',
+                ));
+                
+                $wp_customize->add_control('wpbottommenu_cart_separator', array(
+                    'label'    => __( 'Customize Cart Item', 'wp-bottom-menu' ), 
+                    'section'  => 'wpbottommenu_section_customize',
+                    'settings' => 'wpbottommenu_cart_separator',
+                    'type' => 'hidden',
+                ));
+
+                $wp_customize->add_setting( 'wpbottommenu_show_cart_count' , array(
+                    'default'     => false,
+                    'type'        => 'option',
+                ));
+                
+                $wp_customize->add_control('wpbottommenu_show_cart_count', array(
+                    'label'    => __( 'Show Cart Count', 'wp-bottom-menu' ), 
+                    'section'  => 'wpbottommenu_section_customize',
+                    'settings' => 'wpbottommenu_show_cart_count',
+                    'type' => 'checkbox',
+                ));
+                
+                $wp_customize->add_setting( 'wpbottommenu_cart_count_bgcolor', array(
+                    'default' => '#ff0000',
+                    'section'  => 'wpbottommenu_section_customize',
+                    'sanitize_callback' => 'sanitize_hex_color',
+                    'type' => 'option'
+                ));
+
+                $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'wpbottommenu_cart_count_bgcolor', array( 
+                    'description' => __('Cart Count Background Color', 'wp-bottom-menu'),
+                    'section'  => 'wpbottommenu_section_customize',
+                )));
+
+                $wp_customize->add_setting( 'wpbottommenu_show_cart_total' , array(
+                    'default'     => false,
+                    'type'        => 'option',
+                ));
+                
+                $wp_customize->add_control('wpbottommenu_show_cart_total', array(
+                    'label'    => __( 'Show Cart Total', 'wp-bottom-menu' ), 
+                    'description' => 'This option override cart menu title.',
+                    'section'  => 'wpbottommenu_section_customize',
+                    'settings' => 'wpbottommenu_show_cart_total',
+                    'type' => 'checkbox',
+                ));
+
         //
         // Section: Menu Items
         //
@@ -347,6 +412,13 @@ class WPBottomMenu{
 
     }
 
+    // woocommerce cart fragment
+    function wp_bottom_menu_add_to_cart_fragment( $fragments ) {
+        $fragments['div.wp-bottom-menu-cart-count'] = '<div class="wp-bottom-menu-cart-count">' . WC()->cart->get_cart_contents_count() . '</div>'; 
+        $fragments['span.wp-bottom-menu-cart-total'] = '<span class="wp-bottom-menu-cart-total">' . WC()->cart->get_cart_total() . '</span>';
+        return $fragments;
+    }
+
     // plugin action links
     function wp_bottom_menu_action_links( $links_array, $plugin_file_name ){
         if( strpos( $plugin_file_name, basename(__FILE__) ) ) {
@@ -383,7 +455,8 @@ class WPBottomMenu{
                 --wpbottommenu-text-color: <?php echo get_option( 'wpbottommenu_textcolor', '#000000' );?>;
                 --wpbottommenu-icon-color: <?php echo get_option( 'wpbottommenu_iconcolor', '#000000' );?>;
                 --wpbottommenu-bgcolor: <?php echo get_option( 'wpbottommenu_bgcolor', '#ffffff' );?>;
-                --wpbottommenu-zindex: <?php echo get_option( 'wpbottommenu_zindex', '9999' ); ?>;;
+                --wpbottommenu-zindex: <?php echo get_option( 'wpbottommenu_zindex', '9999' ); ?>;
+                --wpbottommenu-cart-count-bgcolor: <?php echo get_option( 'wpbottommenu_cart_count_bgcolor', '#ff0000' );?>;
             }
 
         </style>
@@ -399,7 +472,8 @@ function wp_bottom_menu_pluginprefix_activate() {
 register_activation_hook( __FILE__, 'wp_bottom_menu_pluginprefix_activate' );
 
 function wp_bottom_menu_pluginprefix_deactivate() {
-	/*
+	/* If you want all settings to be deleted when the plugin is deactive, activate this field. 
+
     delete_option(' customizer_repeater_wpbm' );
     delete_option( 'wpbottommenu_display_px' );
     delete_option( 'wpbottommenu_display_always' );
@@ -412,6 +486,9 @@ function wp_bottom_menu_pluginprefix_deactivate() {
     delete_option( 'wpbottommenu_disable_title' );
     delete_option( 'wpbottommenu_iconset' );
     delete_option( 'wpbottommenu_placeholder_text' );
+    delete_option( 'wpbottommenu_show_cart_count' );
+    delete_option( 'wpbottommenu_show_cart_total' );
+    delete_option( 'wpbottommenu_cart_count_bgcolor' );
 	*/
     flush_rewrite_rules();
 }

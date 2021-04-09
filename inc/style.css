@@ -44,6 +44,28 @@
     height: var(--wpbottommenu-icon-size);
 }
 
+.wp-bottom-menu-icon-wrapper{
+    position: relative;
+    line-height: 0;
+}
+
+.wp-bottom-menu-cart-count{
+	position: absolute;
+	box-sizing: content-box;
+	top: -5px;
+	left: 50%;
+	width: calc(var(--wpbottommenu-icon-size) * .75);
+	height: calc(var(--wpbottommenu-icon-size) * .75);
+	font-size: calc(var(--wpbottommenu-icon-size) * .5);
+	line-height: calc(var(--wpbottommenu-icon-size) * .75);
+	border: 2px solid var(--wpbottommenu-bgcolor);
+	border-radius: 100%;
+	text-align: center;
+	background: var(--wpbottommenu-cart-count-bgcolor);
+	color: var(--wpbottommenu-bgcolor);
+	font-weight:bold;
+}
+
 .wp-bottom-menu-search-form-wrapper{
     display: none;
     position: fixed;

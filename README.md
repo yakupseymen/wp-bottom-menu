@@ -23,7 +23,7 @@ WP Bottom Menu allows you to add a woocommerce supported bottom menu to your sit
 * Custom Link
 * FontAwesome Icon Support
 * Custom SVG Icon Support
-* Woocommerce Cart Support
+* Woocommerce Cart Support (Cart Count & Cart Total supported)
 * Woocommerce Account Support
 * Search (Woocommerce Product or Post)
 * Customizable Style
@@ -47,9 +47,16 @@ Use the Appearance->Customize->WP Bottom Menu->Customize screen to configure the
 
 Use the Appearance->Customize->WP Bottom Menu->Menu Items screen to configure the plugin.
 
+### How can I show cart count or cart total? ###
+
+Use the Appearance->Customize->WP Bottom Menu->Customize screen and find 'Customize Cart Item', configure the plugin.
+
 
 
 ## Changelog ##
+
+### 1.2 ###
+* New - Cart Count and Cart Total option. Check it 'WP Bottom Menu > Customize' and find 'Customize Cart Item'.
 
 ### 1.1.2 ###
 * Fix - Issue: https://wordpress.org/support/topic/js-error-123/
