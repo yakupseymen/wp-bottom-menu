@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Bottom Menu
  * Description: WP Bottom Menu allows you to add a woocommerce supported bottom menu to your site.
- * Version: 1.2
+ * Version: 1.3
  * Author: J4
  * Author URI: https://j4cob.net
  * License: GPL v2 or later
@@ -23,7 +23,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'WP_BOTTOM_MENU_VERSION', '1.2' );
+define( 'WP_BOTTOM_MENU_VERSION', '1.3' );
 define( 'WP_BOTTOM_MENU_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'WP_BOTTOM_MENU_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -65,6 +65,16 @@ class WPBottomMenu{
 
     // wp bottom menu
     function wp_bottom_menu() {
+
+        
+        // Check pages to hide  
+        if ( is_array( get_option( 'wpbottommenu_hide_pages' ) ) ){
+            foreach(get_option( 'wpbottommenu_hide_pages' ) as $page){
+                if ($page == get_the_ID())
+                    return;
+            }
+        }
+
         ?>
         <div class="wp-bottom-menu" id="wp-bottom-menu">
 
@@ -150,6 +160,10 @@ class WPBottomMenu{
     } 
     // customizer api
     function wp_bottom_menu_customize_register( $wp_customize ) {
+
+        if( !class_exists('Customize_Control_Multiple_Select') ){
+            require_once( WP_BOTTOM_MENU_DIR_PATH . 'inc/page-control/page-control.php');
+        }
                 
         // Add Theme Options Panel.
         $wp_customize->add_panel( 'wpbottommenu_panel',
@@ -221,6 +235,28 @@ class WPBottomMenu{
                     'settings' => 'wpbottommenu_zindex',
                     'type' => 'number',
                 ));
+
+                // Hide Pages
+                $wp_customize->add_setting( 'wpbottommenu_hide_pages', array(
+                    'type'       => 'option',
+                    'capability' => 'edit_theme_options',
+                    'sanitize_callback' => 'wpbm_pages_sanitize'
+                ) );
+
+                $wp_customize->add_control(
+                    new Customize_Control_Multiple_Select(
+                        $wp_customize,
+                        'multiple_select_setting',
+                        array(
+                            'settings' => 'wpbottommenu_hide_pages',
+                            'label' => __('Hide Menu', 'wp-bottom-menu'),
+                            'description' => __('The menu will be hidden on the pages you have selected. You can choose multiple.', 'wp-bottom-menu'),
+                            'section' => 'wpbottommenu_section_settings', 
+                            'type' => 'multiple-select',
+                            'choices' => wpbm_pages() 
+                        )
+                    )
+                );
                 
         //
         // Section: Customize
@@ -265,6 +301,18 @@ class WPBottomMenu{
                     'label'    => __( 'Menu Icon Size (px)', 'wp-bottom-menu' ), 
                     'section'  => 'wpbottommenu_section_customize',
                     'settings' => 'wpbottommenu_iconsize',
+                    'type' => 'number',
+                ));
+
+                $wp_customize->add_setting( 'wpbottommenu_wrapper_padding' , array(
+                    'default'     => '10',
+                    'type'        => 'option',
+                ));
+                
+                $wp_customize->add_control( 'wpbottommenu_wrapper_padding', array(
+                    'label'    => __( 'Menu Padding (px)', 'wp-bottom-menu' ), 
+                    'section'  => 'wpbottommenu_section_customize',
+                    'settings' => 'wpbottommenu_wrapper_padding',
                     'type' => 'number',
                 ));
 
@@ -457,6 +505,7 @@ class WPBottomMenu{
                 --wpbottommenu-bgcolor: <?php echo get_option( 'wpbottommenu_bgcolor', '#ffffff' );?>;
                 --wpbottommenu-zindex: <?php echo get_option( 'wpbottommenu_zindex', '9999' ); ?>;
                 --wpbottommenu-cart-count-bgcolor: <?php echo get_option( 'wpbottommenu_cart_count_bgcolor', '#ff0000' );?>;
+                --wpbottommenu-wrapper-padding: <?php echo get_option( 'wpbottommenu_wrapper_padding', '10' );?>px 0;
             }
 
         </style>
@@ -489,6 +538,8 @@ function wp_bottom_menu_pluginprefix_deactivate() {
     delete_option( 'wpbottommenu_show_cart_count' );
     delete_option( 'wpbottommenu_show_cart_total' );
     delete_option( 'wpbottommenu_cart_count_bgcolor' );
+    delete_option( 'wpbottommenu_hide_pages' );
+    delete_option( 'wpbottommenu_wrapper_padding' );
 	*/
     flush_rewrite_rules();
 }

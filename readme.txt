@@ -4,7 +4,7 @@ Donate link:
 Tags: bottom menu,mobile menu
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.2
+Stable tag: 1.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -48,11 +48,19 @@ Use the Appearance->Customize->WP Bottom Menu->Customize screen and find 'Custom
 
 == Screenshots ==
 
-1. WP Bottom Menu
-2. WP Bottom Menu Search Form
-3. Custom Menu
+1. Default (FontAwesome Icons)
+2. Search Screen
+3. FontAwesome Icons with Cart Count and Cart Total
+4. Custom SVG without Menu Title
+5. Custom SVG and Custom colors with Cart Count
+6. Custom SVG and Custom Links
+
 
 == Changelog ==
+
+= 1.3 =
+* New - Hide Pages option. You can now hide the menu on the pages you have selected. Check it 'WP Bottom Menu > Settings' and find 'Hide Menu'.
+* New - Menu padding option. Check it 'WP Bottom Menu > Customize' and find 'Menu Padding'.
 
 = 1.2 =
 * New - Cart Count and Cart Total option. Check it 'WP Bottom Menu > Customize' and find 'Customize Cart Item'.
@@ -82,4 +90,4 @@ Use the Appearance->Customize->WP Bottom Menu->Customize screen and find 'Custom
 * Fix woocommerce bugs.
 
 = 1.0 =
-Initial Release.
+* Initial Release.
