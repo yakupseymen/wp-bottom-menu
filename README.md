@@ -55,6 +55,12 @@ Use the Appearance->Customize->WP Bottom Menu->Customize screen and find 'Custom
 
 ## Changelog ##
 
+### 1.3.2 ###
+* PHP8 Compatibility
+
+### 1.3.1 ###
+* Fix - Woocommerce Product Search
+
 ### 1.3 ###
 * New - Hide Pages option. You can now hide the menu on the pages you have selected. Check it 'WP Bottom Menu > Settings' and find 'Hide Menu'.
 * New - Menu padding option. Check it 'WP Bottom Menu > Customize' and find 'Menu Padding'.

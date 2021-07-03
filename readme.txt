@@ -3,8 +3,8 @@ Contributors: j4cob
 Donate link: 
 Tags: bottom menu,mobile menu
 Requires at least: 5.0
-Tested up to: 5.7
-Stable tag: 1.3
+Tested up to: 5.8
+Stable tag: 1.3.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -57,6 +57,12 @@ Use the Appearance->Customize->WP Bottom Menu->Customize screen and find 'Custom
 
 
 == Changelog ==
+
+= 1.3.2 =
+* PHP8 Compatibility
+
+= 1.3.1 =
+* Fix - Woocommerce Product Search
 
 = 1.3 =
 * New - Hide Pages option. You can now hide the menu on the pages you have selected. Check it 'WP Bottom Menu > Settings' and find 'Hide Menu'.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Bottom Menu
  * Description: WP Bottom Menu allows you to add a woocommerce supported bottom menu to your site.
- * Version: 1.3
+ * Version: 1.3.2
  * Author: J4
  * Author URI: https://j4cob.net
  * License: GPL v2 or later
@@ -23,7 +23,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'WP_BOTTOM_MENU_VERSION', '1.3' );
+define( 'WP_BOTTOM_MENU_VERSION', '1.3.2' );
 define( 'WP_BOTTOM_MENU_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'WP_BOTTOM_MENU_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -88,7 +88,8 @@ class WPBottomMenu{
         /*This returns a json so we have to decode it*/
 
         $customizer_repeater_wpbm_decoded = json_decode($customizer_repeater_wpbm);
-        $wpbmsf;
+        $wpbm_woo_search = false;
+        $wpbm_post_search = false;
         foreach($customizer_repeater_wpbm_decoded as $repeater_item){
 
             if($repeater_item->choice == "wpbm-woo-search" or $repeater_item->choice == "wpbm-post-search"):?>
@@ -143,19 +144,26 @@ class WPBottomMenu{
                     
                 </a>
             <?php
-            $wpbmsf = $repeater_item->choice;           
 
+            if ( $repeater_item->choice == "wpbm-woo-search" and !$wpbm_woo_search )
+                $wpbm_woo_search = true;
+
+            if ( $repeater_item->choice == "wpbm-post-search" and !$wpbm_post_search )
+                $wpbm_post_search = true;
+            
         }
         ?>
     </div>
-
-    <div class="wp-bottom-menu-search-form-wrapper" id="wp-bottom-menu-search-form-wrapper">
-    <form role="search" method="get" action="<?php echo esc_url( home_url( '/'  ) ); ?>" class="wp-bottom-menu-search-form">
-        <i class="fa fa-search"></i>
-	    <input type="hidden" name="post_type" value="<?php if($wpbmsf=="wpbm-woo-search" and class_exists( 'WooCommerce' )) echo esc_attr("product"); else echo esc_attr("post"); ?>" />
-        <input type="search" class="search-field" placeholder="<?php if(get_option( 'wpbottommenu_placeholder_text', 'Search' )) echo get_option( 'wpbottommenu_placeholder_text', 'Search' ); else echo esc_attr_x( 'Search', 'wp-bottom-menu' ); ?>" value="<?php echo get_search_query(); ?>" name="s" />
-    </form>
-    </div><?php       
+    
+    <?php if ( $wpbm_woo_search || $wpbm_post_search ): ?>
+        <div class="wp-bottom-menu-search-form-wrapper" id="wp-bottom-menu-search-form-wrapper">
+        <form role="search" method="get" action="<?php echo esc_url( home_url( '/'  ) ); ?>" class="wp-bottom-menu-search-form">
+            <i class="fa fa-search"></i>
+            <input type="hidden" name="post_type" value="<?php if($wpbm_woo_search and class_exists( 'WooCommerce' )) echo esc_attr("product"); else echo esc_attr("post"); ?>" />
+            <input type="search" class="search-field" placeholder="<?php if(get_option( 'wpbottommenu_placeholder_text', 'Search' )) echo get_option( 'wpbottommenu_placeholder_text', 'Search' ); else echo esc_attr_x( 'Search', 'wp-bottom-menu' ); ?>" value="<?php echo get_search_query(); ?>" name="s" />
+        </form>
+        </div>
+    <?php endif;       
         
     } 
     // customizer api

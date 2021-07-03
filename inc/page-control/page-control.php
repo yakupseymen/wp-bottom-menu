@@ -36,7 +36,7 @@ class Customize_Control_Multiple_Select extends WP_Customize_Control {
             <select <?php $this->link(); ?> multiple="multiple" style="height: 100%; min-height:200px">
                 <?php
                 foreach ( $this->choices as $value => $label ) {
-                    $selected = ( in_array( $value, $this->value() ) ) ? selected( 1, 1, false ) : '';
+                    $selected = ( in_array( $this->choices, $this->value() ) ) ? selected( 1, 1, false ) : '';
                     echo '<option value="' . esc_attr( $value ) . '"' . $selected . '>' . $label . '</option>';
                 }
                 ?>
